@@ -5,3 +5,7 @@
 ## Related repo
 - https://github.com/BalconyJH/aioarxiv/
   - Doesn't seem to provide caching yet. 
+
+## References
+- https://info.arxiv.org/help/api/user-manual.html
+- https://info.arxiv.org/help/api/tou.html
