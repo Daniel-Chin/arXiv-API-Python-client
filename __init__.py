@@ -5,7 +5,7 @@ import json
 import requests
 import atoma
 
-from cache import Cache
+from .cache import Cache
 
 ENDPOINT = 'http://export.arxiv.org/api/query'
 
