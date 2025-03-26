@@ -1,6 +1,14 @@
 # arXiv API Python client
 - A python client over export.arxiv.org  
-- Provides a local cache store, invalidated at midnight.  
+- Provides a local cache store, invalidated at midnight Eastern Time.  
+- Thread-safe.  
+
+## todo
+- catch API errors
+  - rate limited
+    - auto retry
+  - http status codes
+  - others
 
 ## Related repo
 - https://github.com/BalconyJH/aioarxiv/
