@@ -13,7 +13,7 @@ ENDPOINT = 'http://export.arxiv.org/api/query'
 def ArxivAPI():
     n_hits = 0
     n_misses = 0
-    with Cache() as (getCache, setCache):
+    with Cache() as (getCache, setCache, clearCache):
         def query(
             search_query: str | None = None, 
             id_list: tp.List[str] | None = None,
@@ -54,4 +54,4 @@ def ArxivAPI():
                 n_misses=n_misses,
             )
 
-        yield query, getCacheStats
+        yield query, getCacheStats, clearCache

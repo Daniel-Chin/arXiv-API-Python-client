@@ -28,10 +28,13 @@ def Cache(
         def getToday():
             return str(getNYTime().date())
 
-        def clear():
-            nonlocal thread
+        def manualClear():
             shelf.clear()
             shelf[CACHE_DATE] = getToday()
+        
+        def threadClear():
+            nonlocal thread
+            manualClear()
             thread = None
 
         def invalidate():
@@ -45,7 +48,7 @@ def Cache(
             else:
                 need_purge = cache_date != getToday()
             if need_purge:
-                thread = threading.Thread(target=clear)
+                thread = threading.Thread(target=threadClear)
                 thread.start()
         
         def get(key: str):
@@ -69,7 +72,7 @@ def Cache(
                 shelf[key] = value
         
         try:
-            yield get, set_
+            yield get, set_, manualClear
         finally:
             t_ = thread
             if t_ is not None:
