@@ -11,6 +11,8 @@ ENDPOINT = 'http://export.arxiv.org/api/query'
 
 @contextmanager
 def ArxivAPI():
+    n_hits = 0
+    n_misses = 0
     with Cache() as (getCache, setCache):
         def query(
             search_query: str | None = None, 
@@ -18,6 +20,7 @@ def ArxivAPI():
             start: int | None = None, 
             max_results: int | None = None,
         ):
+            nonlocal n_hits, n_misses
             id_list_str = ','.join(sorted(id_list)) if id_list is not None else None
             params = {}
             if search_query is not None:
@@ -30,9 +33,12 @@ def ArxivAPI():
                 params['max_results'] = max_results
             cache_key = json.dumps(params)
             try:
-                return getCache(cache_key)
+                result = getCache(cache_key)
             except KeyError:
-                pass
+                n_misses += 1
+            else:
+                n_hits += 1
+                return result
             res = requests.get(
                 ENDPOINT,
                 params=params,
@@ -42,4 +48,10 @@ def ArxivAPI():
             setCache(cache_key, feed)
             return feed
         
-        yield query
+        def getCacheStats():
+            return dict(
+                n_hits=n_hits,
+                n_misses=n_misses,
+            )
+
+        yield query, getCacheStats
