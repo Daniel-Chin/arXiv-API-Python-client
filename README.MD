@@ -3,6 +3,10 @@
 - Provides a local cache store, invalidated at midnight Eastern Time.  
 - Thread-safe.  
 
+## Reminder
+From https://info.arxiv.org/help/api/index.html
+> Acknowledge arXiv data usage with this statement on your product: “Thank you to arXiv for use of its open access interoperability.”
+
 ## todo
 - catch API errors
   - rate limited
